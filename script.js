@@ -6,6 +6,26 @@ let firstValue = 0
 let operatorValue = ''
 let awaitingNextValue = false
 
+const calculate = {
+    '/': (firstNumber, secondNumber) => firstNumber / secondNumber,
+    '*': (firstNumber, secondNumber) => firstNumber * secondNumber,
+    '+': (firstNumber, secondNumber) => firstNumber + secondNumber,
+    '-': (firstNumber, secondNumber) => firstNumber - secondNumber,
+    '=': (firstNumber, secondNumber) => secondNumber,
+}
+
+inputBtns.forEach( inputBtn => {
+    if(inputBtn.classList.length === 0) {
+        inputBtn.addEventListener('click', () => sendNumber(inputBtn.value))
+    } else if (inputBtn.classList.contains('operator')) {
+        inputBtn.addEventListener('click', () => useOperator(inputBtn.value))
+    } else if (inputBtn.classList.contains('decimal')) {
+        inputBtn.addEventListener('click', () => addDecimal())
+    }
+})
+
+clearBtn.addEventListener('click', resetAll)
+
 function sendNumber(number) {
     if(awaitingNextValue) {
         calculatorDisplay.textContent = number
@@ -14,15 +34,6 @@ function sendNumber(number) {
         const displayValue = calculatorDisplay.textContent
         calculatorDisplay.textContent = displayValue === '0' ? number : displayValue + number
     }
-}
-
-const calculate = {
-    '/': (firstNumber, secondNumber) => firstNumber / secondNumber,
-    '*': (firstNumber, secondNumber) => firstNumber * secondNumber,
-    '+': (firstNumber, secondNumber) => firstNumber + secondNumber,
-    '-': (firstNumber, secondNumber) => firstNumber - secondNumber,
-    '=': (firstNumber, secondNumber) => secondNumber,
-
 }
 
 function addDecimal() {
@@ -49,22 +60,9 @@ function useOperator(operator) {
     operatorValue = operator
 }
 
-inputBtns.forEach( inputBtn => {
-    if(inputBtn.classList.length === 0) {
-        inputBtn.addEventListener('click', () => sendNumber(inputBtn.value))
-    } else if (inputBtn.classList.contains('operator')) {
-        inputBtn.addEventListener('click', () => useOperator(inputBtn.value))
-    } else if (inputBtn.classList.contains('decimal')) {
-        inputBtn.addEventListener('click', () => addDecimal())
-    }
-})
-
 function resetAll() {
     firstValue = 0
     operatorValue = ''
     awaitingNextValue = false
     calculatorDisplay.textContent = '0'
 }
-
-clearBtn.addEventListener('click', resetAll)
-
